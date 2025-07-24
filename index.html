@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malla Interactiva Tecnología Médica</title>
+  <style>
+   body {
+  font-family: 'Georgia', serif;
+  background: #e3f8e0; /* fondo muy suave */
+  padding: 20px;
+  color: #2c2c2c;
+  margin: 0;
+}
+
+.reset-btn {
+  display: block;
+  margin: 40px auto 20px auto;
+  padding: 10px 20px;
+  background-color: #42ab49; /* verde principal */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.reset-btn:hover {
+  background-color: #2e7d32; /* más oscuro para hover */
+}
+
+h1 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #42ab49;
+  padding: 0 10px;
+  text-transform: uppercase;
+}
+
+.year-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.year {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  border-top: 5px solid #5ac15d; /* acento */
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  justify-content: center;
+}
+
+.year-title {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 20px;
+  font-weight: bold;
+  margin-right: 10px;
+  border-right: 2px solid #4eb653; /* barra lateral */
+  padding-right: 8px;
+  text-transform: uppercase;
+  color: #42ab49;
+}
+
+.semester-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.semester {
+  min-width: 200px;
+  padding: 15px;
+  background: #c7f1c2; /* fondo claro */
+  border: 1px solid #a9e9a4;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.semester-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  text-align: center;
+  color: #42ab49;
+}
+
+.course {
+  padding: 8px 10px;
+  margin: 6px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #5ac15d; /* color principal curso */
+  color: #ffffff;
+  transition: background-color 0.3s ease;
+}
+
+.course.approved {
+  background-color: #89e186; /* aprobado */
+  text-decoration: line-through;
+  color: #2e7d32;
+}
+
+.course.locked {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+  color: #9e9e9e;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .year {
+    flex-direction: column;
+  }
+
+  .year-title {
+    writing-mode: horizontal-tb;
+    transform: none;
+    margin-right: 0;
+    margin-bottom: 10px;
+    border-right: none;
+    border-bottom: 2px solid #4eb653;
+    padding-right: 0;
+    padding-bottom: 8px;
+  }
+
+  .semester-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+  </style> 
+</head>
+<body>
+  <h1>MALLA INTERACTIVA OFTALMOLOGÍA Y OPTOMETRÍA</h1>
+  <div class="year-container" id="malla"></div>
+
+  <script>
+    const malla = document.getElementById("malla");
+
+      const Semestre = {
+      "Semestre 1": ["Química General y Orgánica", "Biología Celular", "Matemática Básica", "Introducción a la Tecnología Médica", "Integrado de Habilidades Cientificas Para la Tecnología Médica", "Antropología"],
+      "Semestre 2": ["Bioquímica General", "Morfología Básica", "Tecnología Médica en el Equipo de Salud", "Bioseguridad y Procedimientos de Apoyo Diagnóstico", "Psicología de Atención al Paciente", "Ética"],
+      "Semestre 3": ["Integrado Fisiología - fisiopatología - Farmacología I", "Salud Poblacional", "Bioestadística", "Infectologia Básica", "Morfofisiología del Sistema Visual"],
+      "Semestre 4": ["Integrado Fisiología - fisiopatología - Farmacología II", "Bioética", "Epidemiología", "Física Oftálmica", "Morfofisiopatología del Sistema Visual", "Hito Evaluativo Integrativo"],
+      "Semestre 5": ["Óptica Aplicada", "Procedimientos en Oftalmología General", "Evaluación Sensoriomotora del Sistema Visual", "Gestión Clínica en Oftalmología", "Persona y Sociedad"],
+      "Semestre 6": ["Optometría Clínica", "Patología y Tratamiento de la Visión Binocular", "Evaluación del Campo Visual", "Electivo I: Formación e identidad", "Gestión en Equipos para el Alto Desempeño"],
+      "Semestre 7": ["Metodología de la Investigación", "Optometría Clínica Avanzada y Contactología", "Imagenología Ocular", "Biometría Ocular en Cirugía Refractiva", "Neurooftalmología", "Electivo II: Formación e Identidad"],
+      "Semestre 8": ["Salud Digital", "Procedimientos Aplicados en Retina Clínica", "Baja Visión y Terapia Visual", "Procedimientos Clínicos en Cirugía Refractiva", "Electivo III: Formación e Identidad", "Hito Evaluativo Interprofesional"],
+      "Semestre 9": ["Taller de Investigación Aplicado en Tecnología Médica en Oftalmología", "Gestión y Acreditación en Oftalmología", "Electivo I", "Electivo II", "Gestión de Carrera y desarrollo Profesional"],
+      "Semestre 10": ["Internado"]
+    };
+
+    const semestrePorAnio = {
+      "Primer Año": ["Semestre 1", "Semestre 2"],
+      "Segundo Año": ["Semestre 3", "Semestre 4"],
+      "Tercer Año": ["Semestre 5", "Semestre 6"],
+      "Cuarto Año": ["Semestre 7", "Semestre 8"],
+      "Quinto Año": ["Semestre 9", "Semestre 10"]
+    };
+
+    const colorPorAnio = {
+      "Primer Año": "celeste",
+      "Segundo Año": "celeste",
+      "Tercer Año": "morado",
+      "Cuarto Año": "morado",
+      "Quinto Año": "morado"
+    };
+
+    const prerrequisitos = {
+      "Bioquímica General": ["Química General y Orgánica"],
+      "Ética": ["Antropología"],
+      "Tecnología Médica en el Equipo de Salud": ["Introducción a la Tecnología Médica"],
+     
+      "Integrado Fisiología - fisiopatología - Farmacología I": ["Química General y Orgánica", "Biología Celular", "Matemática Básica", "Introducción a la Tecnología Médica", "Integrado de Habilidades Cientificas Para la Tecnología Médica", "Antropología", "Bioquímica General", "Morfología Básica", "Tecnología Médica en el Equipo de Salud", "Bioseguridad y Procedimientos de Apoyo Diagnóstico", "Psicología de Atención al Paciente", "Ética"],
+      "Infectologia Básica": ["Química General y Orgánica", "Biología Celular", "Matemática Básica", "Introducción a la Tecnología Médica", "Integrado de Habilidades Cientificas Para la Tecnología Médica", "Antropología", "Bioquímica General", "Morfología Básica", "Tecnología Médica en el Equipo de Salud", "Bioseguridad y Procedimientos de Apoyo Diagnóstico", "Psicología de Atención al Paciente", "Ética"],
+      "Morfofisiología del Sistema Visual": ["Química General y Orgánica", "Biología Celular", "Matemática Básica", "Introducción a la Tecnología Médica", "Integrado de Habilidades Cientificas Para la Tecnología Médica", "Antropología", "Bioquímica General", "Morfología Básica", "Tecnología Médica en el Equipo de Salud", "Bioseguridad y Procedimientos de Apoyo Diagnóstico", "Psicología de Atención al Paciente", "Ética"],
+      "Bioestadística": ["Química General y Orgánica", "Biología Celular", "Matemática Básica", "Introducción a la Tecnología Médica", "Integrado de Habilidades Cientificas Para la Tecnología Médica", "Antropología", "Bioquímica General", "Morfología Básica", "Tecnología Médica en el Equipo de Salud", "Bioseguridad y Procedimientos de Apoyo Diagnóstico", "Psicología de Atención al Paciente", "Ética"],
+      "Salud Poblacional": ["Química General y Orgánica", "Biología Celular", "Matemática Básica", "Introducción a la Tecnología Médica", "Integrado de Habilidades Cientificas Para la Tecnología Médica", "Antropología", "Bioquímica General", "Morfología Básica", "Tecnología Médica en el Equipo de Salud", "Bioseguridad y Procedimientos de Apoyo Diagnóstico", "Psicología de Atención al Paciente", "Ética"],
+      
+      "Integrado Fisiología - fisiopatología - Farmacología II": ["Integrado Fisiología - fisiopatología - Farmacología I"],
+      "Epidemiología": ["Salud Poblacional"],
+      "Física Oftálmica": ["Matemática Básica"],
+      "Morfofisiopatología del Sistema Visual": ["Morfofisiología del Sistema Visual"],
+      "Bioética": ["Química General y Orgánica", "Biología Celular", "Matemática Básica", "Introducción a la Tecnología Médica", "Integrado de Habilidades Cientificas Para la Tecnología Médica", "Antropología", "Bioquímica General", "Morfología Básica", "Tecnología Médica en el Equipo de Salud", "Bioseguridad y Procedimientos de Apoyo Diagnóstico", "Psicología de Atención al Paciente", "Ética"],
+      "Hito Evaluativo Integrativo": ["Integrado Fisiología - fisiopatología - Farmacología I", "Salud Poblacional", "Bioestadística", "Infectologia Básica", "Morfofisiología del Sistema Visual", "Integrado Fisiología - fisiopatología - Farmacología II", "Bioética", "Epidemiología", "Física Oftálmica", "Morfofisiopatología del Sistema Visual"],
+
+      
+      "Persona y Sociedad": ["Ética"],
+      "Óptica Aplicada": ["Física Oftálmica"],
+      "Procedimientos en Oftalmología General": ["Morfofisiopatología del Sistema Visual"],
+      "Evaluación Sensoriomotora del Sistema Visual": ["Morfofisiopatología del Sistema Visual"],
+      
+      "Evaluación del Campo Visual": ["Procedimientos en Oftalmología General"],
+      "Patología y Tratamiento de la Visión Binocular": ["Evaluación Sensoriomotora del Sistema Visual"],
+      "Optometría Clínica": ["Procedimientos en Oftalmología General"],
+      
+      "Optometría Clínica Avanzada y Contactología": ["Optometría Clínica"],
+      "Imagenología Ocular": ["Evaluación del Campo Visual"],
+      "Neurooftalmología": ["Patología y Tratamiento de la Visión Binocular"],
+      "Biometría Ocular en Cirugía Refractiva": ["Química General y Orgánica", "Biología Celular", "Matemática Básica", "Introducción a la Tecnología Médica", "Integrado de Habilidades Cientificas Para la Tecnología Médica", "Antropología", "Bioquímica General", "Morfología Básica", "Tecnología Médica en el Equipo de Salud", "Bioseguridad y Procedimientos de Apoyo Diagnóstico", "Psicología de Atención al Paciente", "Ética"],
+      
+      "Baja Visión y Terapia Visual": ["Optometría Clínica Avanzada y Contactología"],
+      "Procedimientos Aplicados en Retina Clínica": ["Imagenología Ocular"],
+      "Procedimientos Clínicos en Cirugía Refractiva": ["Biometría Ocular en Cirugía Refractiva"],
+      "Hito Evaluativo Interprofesional": ["Metodología de la Investigación", "Optometría Clínica Avanzada y Contactología", "Imagenología Ocular", "Biometría Ocular en Cirugía Refractiva", "Neurooftalmología", "Electivo II: Formación e Identidad", "Salud Digital", "Procedimientos Aplicados en Retina Clínica", "Baja Visión y Terapia Visual", "Procedimientos Clínicos en Cirugía Refractiva", "Electivo III: Formación e Identidad", "Hito Evaluativo Integrativo"],
+
+      "Taller de Investigación Aplicado en Tecnología Médica en Oftalmología": ["Metodología de la Investigación", "Optometría Clínica Avanzada y Contactología", "Imagenología Ocular", "Biometría Ocular en Cirugía Refractiva", "Neurooftalmología", "Electivo II: Formación e Identidad", "Salud Digital", "Procedimientos Aplicados en Retina Clínica", "Baja Visión y Terapia Visual", "Procedimientos Clínicos en Cirugía Refractiva", "Electivo III: Formación e Identidad", "Hito Evaluativo Interprofesional"],
+      "Gestión y Acreditación en Oftalmología": ["Hito Evaluativo Interprofesional"],
+      "Sistemas de Acreditación en Imagenología y Física Médica": ["Hito Evaluativo Interprofesional"], 
+      "Electivo I": ["Hito Evaluativo Interprofesional"], 
+      "Electivo II": ["Hito Evaluativo Interprofesional"], 
+      "Gestión de Carrera y desarrollo Profesional": ["Hito Evaluativo Interprofesional"],
+      
+      "Internado": ["Metodología de la Investigación", "Optometría Clínica Avanzada y Contactología", "Imagenología Ocular", "Biometría Ocular en Cirugía Refractiva", "Neurooftalmología", "Electivo II: Formación e Identidad", "Salud Digital", "Procedimientos Aplicados en Retina Clínica", "Baja Visión y Terapia Visual", "Procedimientos Clínicos en Cirugía Refractiva", "Electivo III: Formación e Identidad", "Hito Evaluativo Interprofesional"],
+    };
+
+  const estadoCursos = JSON.parse(localStorage.getItem("estadoCursos") || "{}");
+
+  function actualizarEstadoCurso(div, curso) { 
+    const requisitos = prerrequisitos[curso] || [];
+    const aprobado = !!estadoCursos[curso];
+    const bloqueado = requisitos.some(r => !estadoCursos[r]);
+
+    console.log(`Curso: ${curso} | Requisitos: ${requisitos.join(", ")} | Aprobado: ${aprobado} | Bloqueado: ${bloqueado}`);
+
+    div.classList.remove("approved", "locked");
+    div.title = "";
+
+    if (aprobado) {
+      div.classList.add("approved");
+    } else if (bloqueado) {
+      div.classList.add("locked");
+      div.title = `Prerrequisitos: ${requisitos.filter(r => !estadoCursos[r]).join(", ")}`;
+    }
+  }
+
+  for (const anio in semestrePorAnio) {
+    const yearDiv = document.createElement("div");
+    yearDiv.className = "year";
+    yearDiv.dataset.color = colorPorAnio[anio] || "";
+
+    const yearTitle = document.createElement("div");
+    yearTitle.className = "year-title";
+    yearTitle.textContent = anio;
+    yearDiv.appendChild(yearTitle);
+
+    semestrePorAnio[anio].forEach(sem => {
+      const semDiv = document.createElement("div");
+      semDiv.className = "semester";
+
+      const semTitle = document.createElement("div");
+      semTitle.className = "semester-title";
+      semTitle.textContent = sem;
+      semDiv.appendChild(semTitle);
+
+      Semestre[sem].forEach(curso => {
+        const div = document.createElement("div");
+        div.className = "course";
+        div.textContent = curso;
+        div.dataset.nombre = curso;
+
+        actualizarEstadoCurso(div, curso);
+
+        div.addEventListener("click", () => {
+          if (div.classList.contains("locked")) return;
+
+          estadoCursos[curso] = !estadoCursos[curso];
+          localStorage.setItem("estadoCursos", JSON.stringify(estadoCursos));
+
+          document.querySelectorAll('.course').forEach(cursoDiv => {
+            const nombre = cursoDiv.dataset.nombre;
+            actualizarEstadoCurso(cursoDiv, nombre);
+          });
+        });
+
+        semDiv.appendChild(div); 
+      });
+
+      yearDiv.appendChild(semDiv);
+    });
+
+    malla.appendChild(yearDiv);
+  }
+
+  const resetBtn = document.createElement("button");
+  resetBtn.textContent = "Reiniciar Malla";
+  resetBtn.className = "reset-btn";
+  resetBtn.addEventListener("click", () => {
+    if (confirm("¿Estás seguro que deseas reiniciar la malla?")) {
+      localStorage.removeItem("estadoCursos");
+      location.reload();
+    }
+  });
+  document.body.appendChild(resetBtn);
+  </script>
+</body>
+</html>
